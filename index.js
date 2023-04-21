@@ -32,9 +32,9 @@ app.get("/",(req,res)=>{
 })
 
 app.post("/register",async(req,res)=>{
+    const {name,email,password,age,dob,city,isAdmin}=req.body
+    console.log("name",name,email,password,age,dob,city)
     try{
-        const {name,email,password,age,dob,city,isAdmin}=req.body
-        console.log("name",name,email,password,age,dob,city)
         const registerData = await LoginDatas.create({
             name,
             email,
@@ -44,13 +44,21 @@ app.post("/register",async(req,res)=>{
             city,
             isAdmin
         })
+        console.log(registerData,"data")
         if(registerData){
-            res.status(200).json({message:"Employee Added Successfully"})
+            res.status(200).json({successmessage:"Employee Added Successfully"})
 
         }
+        
     }
     catch(e){
-        res.status(400).json({message:`this employee already exits`})
+        if(name === undefined || email === undefined || password === undefined || age === undefined || dob === undefined || city === undefined){
+            res.status(400).json({message:"This field is required"})
+        }
+        else{
+            res.status(400).json({errormessage:`this employee already exits`})
+        }
+    
     }
 })
 
@@ -59,7 +67,13 @@ app.post("/login",async(req,res)=>{
     try{
       const userDoc = await LoginDatas.findOne({ email: email });
       console.log(userDoc)
-      if(userDoc) {
+      if(email === "" && password === "" ){
+        res.status(400).json({email:"This field is required",password:"This field is required"})
+      }
+      else if(email === "" ||password === ""){
+        res.status(400).json({message:"This field is required"})
+      }
+      else if(userDoc) {
         const passOk=bcrypt.compareSync(password,userDoc.password)
         if(passOk) {
           jwt.sign({email,_id:userDoc._id},secretkey,{},(err,token)=>{
