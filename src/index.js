@@ -5,7 +5,7 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
-const LoginDatas = require("./models/LoginModael")
+const LoginDatas = require("../models/LoginModael")
 
 
 const app = express()
