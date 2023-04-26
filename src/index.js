@@ -27,6 +27,7 @@ mongoose.connect(DB).then(()=>{
     console.log("connection failed")
 })
 
+
 app.get("/",(req,res)=>{
     res.send("server Running")
 })
