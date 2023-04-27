@@ -128,7 +128,7 @@ app.put(`/employees/:id`,async(req,res)=>{
             city:city
         })
         if(employees){
-            res.status(200).json({data:employees,message:"updated successfully"})
+            res.status(200).json({data:employees,updatemessage:"updated successfully"})
         }
     }
     catch(e){
@@ -140,7 +140,7 @@ app.delete(`/employees/:id`,async(req,res)=>{
     try{
         const employees = await LoginDatas.findByIdAndDelete(req.params.id)
         if(employees){
-            res.status(200).json({message:"Deleted successfully"})
+            res.status(200).json({deletemessage:"Deleted successfully"})
         }
     }
     catch(e){
